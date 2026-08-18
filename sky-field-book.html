@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sky Field Book — a quiet guide to the company, the money & the merchant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEE4D2; --paper-2:#E8DCC6; --paper-3:#E2D5BB;
+    --ink:#332A20; --ink-2:#6A5B47; --ink-soft:#93826A;
+    --line:#DBCEB4; --line-2:#CCBD9E;
+    --honey:#A9772B; --honey-2:#875D1F; --honey-soft:rgba(169,119,43,.10);
+    --clay:#9C5C42; --sage:#696C4C;
+    --read:900px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;color:var(--ink);font-family:"Newsreader",Georgia,serif;font-size:18px;line-height:1.72;font-weight:400;
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(680px 420px at 78% -8%, rgba(214,170,96,.30), transparent 62%),
+      radial-gradient(560px 380px at 4% 2%, rgba(200,158,92,.16), transparent 60%);
+    background-attachment:fixed;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  .wrap{max-width:var(--read);margin:0 auto;padding:0 26px}
+  .wide{max-width:1040px}
+  a{color:var(--honey-2);text-decoration:none;border-bottom:1px solid var(--line-2)}
+  a:hover{border-color:var(--honey)}
+  em,i{font-style:italic}
+
+  h1,h2,h3,h4{font-family:"Fraunces",Georgia,serif;font-weight:500;color:var(--ink);letter-spacing:-.005em;line-height:1.15;margin:0}
+  .over{font-family:"Newsreader";font-style:italic;font-size:.92rem;letter-spacing:.03em;color:var(--honey-2);margin:0 0 10px;font-variant:small-caps}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:40;background:rgba(238,228,210,.86);backdrop-filter:blur(7px);border-bottom:1px solid var(--line)}
+  nav .row{max-width:1040px;margin:0 auto;padding:0 26px;display:flex;align-items:center;gap:18px;height:58px}
+  nav .brand{font-family:"Fraunces";font-weight:600;font-size:18px}
+  nav .brand .b{color:var(--honey-2)}
+  nav .search{position:relative;margin-left:4px;flex:1;max-width:300px}
+  nav .search input{width:100%;background:var(--paper-2);border:1px solid var(--line-2);color:var(--ink);
+    font-family:"Newsreader";font-size:15px;padding:6px 12px 6px 30px;border-radius:22px;outline:none}
+  nav .search input::placeholder{color:var(--ink-soft);font-style:italic}
+  nav .search input:focus{border-color:var(--honey)}
+  nav .search svg{position:absolute;left:10px;top:9px;width:14px;height:14px;stroke:var(--ink-soft);fill:none;stroke-width:1.8}
+  nav .links{display:flex;gap:3px;margin-left:auto;flex-wrap:wrap}
+  nav .links a{font-size:14px;color:var(--ink-2);border:0;padding:5px 9px;border-radius:6px}
+  nav .links a:hover{background:var(--paper-3);color:var(--ink)}
+  @media(max-width:1000px){nav .links{display:none} nav .search{max-width:none}}
+
+  /* HERO */
+  header.hero{padding:96px 0 54px}
+  .hero h1{font-size:clamp(40px,6vw,68px);font-weight:500;line-height:1.06;letter-spacing:-.02em}
+  .hero h1 .b{font-style:italic;color:var(--honey-2)}
+  .hero .sub{font-size:21px;color:var(--ink-2);margin:24px 0 0;max-width:640px;line-height:1.6}
+  .hero .howread{margin:38px 0 0;padding:22px 26px;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;max-width:660px}
+  .hero .howread h3{font-size:19px;font-weight:600;margin:0 0 8px}
+  .hero .howread p{margin:0;font-size:16.5px;color:var(--ink-2);line-height:1.62}
+  .hero .howread .mini{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:15.5px;color:var(--ink-2)}
+  .hero .howread .mini b{color:var(--ink);font-weight:600}
+
+  /* SECTIONS */
+  section{padding:60px 0}
+  .rule{border:0;border-top:1px solid var(--line);max-width:1040px;margin:0 auto}
+  .sec-head{margin-bottom:30px}
+  .sec-head h2{font-size:clamp(28px,4vw,40px);font-weight:500;letter-spacing:-.015em}
+  .sec-head .lead{font-size:18px;color:var(--ink-2);margin-top:12px;line-height:1.62}
+  .sec-head .lead em{color:var(--ink)}
+
+  /* GROUP HEADING */
+  .grp{font-family:"Fraunces";font-style:italic;font-weight:500;font-size:21px;color:var(--ink-2);
+    margin:44px 0 6px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+
+  /* ENTRY — flows like a book, no cards */
+  .entry{padding:20px 0;border-bottom:1px solid var(--line)}
+  .entry:last-child{border-bottom:0}
+  .entry .term{font-family:"Fraunces";font-size:23px;font-weight:600;line-height:1.2;display:flex;align-items:baseline;flex-wrap:wrap;gap:10px}
+  .entry .term small{font-family:"Newsreader";font-weight:400;font-style:italic;color:var(--ink-soft);font-size:16px}
+  .entry .loc{font-family:"Newsreader";font-style:italic;font-weight:400;font-size:14.5px;color:var(--honey-2);border:0;margin-left:auto;white-space:nowrap}
+  .entry .loc.verify{color:var(--clay)}
+  .entry p{margin:8px 0 0;line-height:1.62}
+  .entry .def{font-size:18px;color:var(--ink);margin-top:9px}
+  .entry .why{font-size:16.5px;color:var(--ink-2)}
+  .entry .ex{font-size:16.5px;color:var(--ink-2);font-style:italic;padding-left:16px;border-left:2px solid var(--honey-soft);border-left-color:rgba(169,119,43,.35);margin-top:11px}
+  .lbl{font-variant:small-caps;letter-spacing:.04em;font-weight:600;font-style:normal;color:var(--ink-soft);margin-right:6px}
+  .ex .lbl{color:var(--honey-2)}
+
+  /* ECOSYSTEM */
+  .eco{display:grid;grid-template-columns:1fr 1fr;gap:2px 40px}
+  @media(max-width:640px){.eco{grid-template-columns:1fr}}
+  .eco .node{padding:20px 0;border-bottom:1px solid var(--line)}
+  .eco .node .nm{font-family:"Fraunces";font-size:20px;font-weight:600}
+  .eco .node .role{font-style:italic;color:var(--honey-2);font-size:15.5px;margin-top:1px}
+  .eco .node p{margin:9px 0 0;font-size:16.5px;color:var(--ink-2);line-height:1.6}
+
+  /* PART OPENERS */
+  .opener{margin:6px 0 12px}
+  .opener .over{margin-bottom:6px}
+  .opener h2{font-size:clamp(26px,3.6vw,36px);font-weight:500}
+  .opener p{font-size:18px;color:var(--ink-2);margin:12px 0 0;max-width:760px;line-height:1.62}
+  .interlude{text-align:center;font-family:"Fraunces";font-style:italic;color:var(--honey-2);font-size:18px;margin:56px 0 34px;position:relative}
+  .interlude::before,.interlude::after{content:"·";color:var(--line-2);margin:0 14px}
+
+  /* PIPELINE */
+  .pipe{margin-top:8px}
+  .stage{display:grid;grid-template-columns:34px 1fr;gap:18px}
+  .stage .rail{display:flex;flex-direction:column;align-items:center}
+  .stage .dot{width:26px;height:26px;border-radius:50%;background:var(--paper-2);border:1.5px solid var(--honey);color:var(--honey-2);
+    font-family:"Fraunces";font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .stage .line{width:1px;flex:1;background:var(--line-2);min-height:12px;margin:3px 0}
+  .stage.won .dot{background:var(--honey);color:var(--paper);border-color:var(--honey)}
+  .stage.lost .dot{border-color:var(--clay);color:var(--clay)}
+  .stage .body{padding-bottom:22px}
+  .stage .body h4{font-family:"Fraunces";font-size:20px;font-weight:600;margin-bottom:3px}
+  .stage .body .d{margin:0;font-size:16.5px;color:var(--ink-2);line-height:1.58}
+  .stage .body .ex{margin:8px 0 0;font-size:15.5px;font-style:italic;color:var(--ink-2)}
+  .stage .body .ex .lbl{color:var(--honey-2)}
+  .offramp{margin-left:52px}
+  .offramp .body h4{color:var(--clay)}
+
+  /* SOLUTIONING */
+  .soln{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+  .soln .step{flex:1;min-width:150px;padding:15px 17px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px}
+  .soln .step .n{font-style:italic;color:var(--honey-2);font-size:14.5px}
+  .soln .step .t{font-family:"Fraunces";font-weight:600;font-size:17px;margin-top:2px}
+  .soln .step .d{font-size:14.5px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+
+  /* ICP */
+  .vert{margin-bottom:12px;padding:24px 26px;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;border-left:4px solid var(--honey)}
+  .vert.con{border-left-color:var(--clay)} .vert.civ{border-left-color:var(--sage)}
+  .vert .role{font-style:italic;color:var(--honey-2);font-size:15px}
+  .vert.con .role{color:var(--clay)} .vert.civ .role{color:var(--sage)}
+  .vert h3{font-family:"Fraunces";font-size:26px;font-weight:600;margin:4px 0 6px}
+  .vert .intro{margin:0;font-size:17px;color:var(--ink-2);line-height:1.6}
+  .vrow{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+  .vrow .vlbl{font-variant:small-caps;letter-spacing:.04em;font-weight:600;color:var(--ink-soft);font-size:15.5px}
+  .vrow p{margin:6px 0 0;font-size:16.5px;color:var(--ink-2);line-height:1.6}
+  .vrow p b{color:var(--ink);font-weight:600}
+  .swline{margin:10px 0 0}
+  .swline .cat{font-family:"Fraunces";font-weight:600;font-size:16.5px;color:var(--ink)}
+  .swline .kind{font-style:italic;color:var(--ink-soft);font-size:15px}
+  .swline .txt{font-size:16px;color:var(--ink-2);margin-top:2px;line-height:1.55}
+  .swline .egs{font-style:italic;color:var(--honey-2);font-size:15.5px}
+  .swline .egs .vf{color:var(--clay)}
+
+  .signal{margin-top:8px;padding:24px 26px;background:var(--paper-3);border:1px solid var(--line-2);border-radius:12px}
+  .signal .over{margin-bottom:4px}
+  .signal h3{font-family:"Fraunces";font-size:23px;font-weight:600}
+  .signal p{margin:8px 0 0;font-size:17px;color:var(--ink-2);line-height:1.6}
+  .signal .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:600px){.signal .split{grid-template-columns:1fr}}
+  .signal .s h4{font-family:"Fraunces";font-size:17px;font-weight:600;margin-bottom:4px}
+  .signal .s.y h4{color:var(--sage)} .signal .s.n h4{color:var(--clay)}
+  .signal .s p{margin:0;font-size:15.5px;line-height:1.55}
+
+  /* ROSTER */
+  .roster{display:grid;grid-template-columns:1fr 1fr;gap:4px 40px}
+  @media(max-width:640px){.roster{grid-template-columns:1fr}}
+  .who{padding:16px 0;border-bottom:1px solid var(--line)}
+  .who .fn{font-style:italic;color:var(--honey-2);font-size:15px}
+  .who .nm{font-family:"Fraunces";font-weight:600;font-size:19px;margin-top:1px}
+  .who p{margin:6px 0 0;font-size:16px;color:var(--ink-2);line-height:1.55}
+
+  .note{margin-top:24px;padding:16px 20px;background:var(--paper-2);border:1px solid var(--line);border-left:3px solid var(--honey);border-radius:9px;font-size:16px;color:var(--ink-2);line-height:1.6}
+  .note b{font-family:"Fraunces";color:var(--ink);font-weight:600;display:block;margin-bottom:3px;font-size:16px}
+  .note em{color:var(--ink);font-style:italic}
+
+  .noresult{display:none;text-align:center;color:var(--ink-soft);font-style:italic;padding:34px;font-size:17px}
+
+  footer{padding:48px 0 72px;color:var(--ink-soft);font-style:italic;font-size:15px;border-top:1px solid var(--line);margin-top:24px}
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  :focus-visible{outline:2px solid var(--honey);outline-offset:3px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="row">
+    <span class="brand">The <span class="b">Sky</span> Field Book</span>
+    <div class="search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      <input id="search" type="text" placeholder="search a term…" aria-label="Search terms">
+    </div>
+    <div class="links">
+      <a href="#ecosystem">The systems</a>
+      <a href="#part1">Part one</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#part2">Part two</a>
+      <a href="#icp">The merchant</a>
+      <a href="#roster">Who to call</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="start">
+  <div class="wrap">
+    <p class="over">Onboarding · read me first</p>
+    <h1>Everything a rep needs<br>to understand <span class="b">Sky</span>.</h1>
+    <p class="sub">Not a glossary you look things up in — a book you read once, slowly, and set down knowing what this company is, how the money moves, and who the merchant on the other end of the phone really is.</p>
+    <div class="howread">
+      <h3>How to read this book</h3>
+      <p>Every term keeps the same quiet shape: a <em>definition</em> of what it is, a line on <em>why the merchant cares</em> — because we sell value, not features — and a plain <em>example</em>. Terms sit in alphabetical order within each section.</p>
+      <p class="mini"><b>Part one</b> is what you say to a merchant. <b>Part two</b> is the back office you understand but never run. <b>The merchant</b> section flips to their world. On a product feature, a small note in the margin tells you which product it lives in; on a back-office term, a line tells you who to call.</p>
+    </div>
+  </div>
+</header>
+
+<hr class="rule">
+<section id="ecosystem">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="over">Orientation</p>
+      <h2>The systems to know</h2>
+      <p class="lead">Five names come up constantly. Learn what each one <em>is</em> before anything else, because every term later in this book lives inside one of them.</p>
+    </div>
+    <div class="eco reveal">
+      <div class="node"><div class="nm">Sky Systemz / SkyOS</div><div class="role">the company &amp; its platform</div><p>Sky Systemz is the fintech (a DBA of ODP Solutions) that optimizes payments for physical, field-based industries — construction, concrete, aggregates, supply, distribution. SkyOS is its product: the web-based operating system a merchant logs into for selling, customers, payments, inventory, and performance.</p></div>
+      <div class="node"><div class="nm">SkyFi / Pay by Bank</div><div class="role">pay-by-bank &amp; embedded finance</div><p>The banking side — business checking and ACH "Pay by Bank," built into SkyOS. It moves payments off cards and onto bank rails to kill fees. This is the cross-sell.</p></div>
+      <div class="node"><div class="nm">Command Alkon / Command Cloud</div><div class="role">the industry ops platform</div><p>The third-party platform ready-mix and aggregates operators already dispatch in. Our payments embed directly inside it, so the operator collects without leaving the software they run their day in.</p></div>
+      <div class="node"><div class="nm">Fractal / EasyPay</div><div class="role">the payments product line</div><p>Fractal is the gateway and processing infrastructure; EasyPay is its product line — the payments product embedded into Command Cloud. EasyPay is a Fractal product, not a Command Alkon one.</p></div>
+      <div class="node"><div class="nm">Outpave</div><div class="role">expense management &amp; card facilitation</div><p>An all-in-one financial platform for construction and trades: corporate and virtual cards, real-time expense tracking, and branded invoicing that collects payment — with sync to QuickBooks, Xero, and Sage. It lets a business run card facilitation and invoicing from its own system. More at <a href="https://www.outpave.com" target="_blank" rel="noopener">outpave.com</a>.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+<section id="part1">
+  <div class="wrap">
+    <div class="opener reveal">
+      <p class="over">Part one</p>
+      <h2>Sales 101 — the language you'll use</h2>
+      <p>Everything here happens at the front or the back of the deal: the money you help a merchant collect, what it costs them, the products that ease their pain, and the pipeline you move them through. If you can explain these in plain English to a lumber-yard owner, you can sell.</p>
+    </div>
+
+    <div class="grp reveal">How a payment actually moves</div>
+
+    <div class="entry reveal">
+      <div class="term">Authorization</div>
+      <p class="def"><span class="lbl">Definition</span>The instant check that confirms a customer's card or account has the funds before a sale is approved.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>It's the "yes" that lets them hand over product with confidence the money is good.</p>
+      <p class="ex"><span class="lbl">For example</span>A customer taps a card at the scale house; the payment is authorized in a second before the truck is released.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Batch <small>or batching</small></div>
+      <p class="def"><span class="lbl">Definition</span>All the day's approved transactions grouped into one submission for settlement, usually at a set cutoff time.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>The batch cutoff decides whether today's sales fund tomorrow or the day after — a clean answer to "when do I get paid?"</p>
+      <p class="ex"><span class="lbl">For example</span>Approved sales are grouped into an evening batch to line them up for next-day deposit.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Capture</div>
+      <p class="def"><span class="lbl">Definition</span>The step where an authorized payment is locked in so the funds will actually transfer.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>Authorization alone doesn't pay them — capture is what turns "approved" into "collected."</p>
+      <p class="ex"><span class="lbl">For example</span>The payment is captured automatically once the invoice is finalized.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Disbursement <small>or funding</small></div>
+      <p class="def"><span class="lbl">Definition</span>The payout of settled funds into the merchant's business checking account.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>It's the finish line — money in their account, ready to make payroll and buy materials.</p>
+      <p class="ex"><span class="lbl">For example</span>After settlement, funds land in the merchant's linked business checking account.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Settlement</div>
+      <p class="def"><span class="lbl">Definition</span>The bank-to-bank hand-off that finalizes a payment and moves money toward the merchant's account.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>This is the moment the sale becomes real cash on its way to their bank.</p>
+      <p class="ex"><span class="lbl">For example</span>Once the batch closes, the transactions settle so funds are ready to disburse.</p>
+    </div>
+
+    <div class="grp reveal">What the merchant pays</div>
+
+    <div class="entry reveal">
+      <div class="term">Basis points <small>(BPS)</small></div>
+      <p class="def"><span class="lbl">Definition</span>The unit for talking about rates precisely: 1 basis point = 0.01%, so 100 bps = 1%.</p>
+      <p class="why"><span class="lbl">Why a rep cares</span>It's how pricing conversations happen. "25 bps" sounds tiny but across millions in volume it's real money — you need to speak it fluently.</p>
+      <p class="ex"><span class="lbl">For example</span>The gap between 250 and 275 bps is 0.25% — small per sale, large across a year of processing.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Interchange fee</div>
+      <p class="def"><span class="lbl">Definition</span>The fee set by Visa and Mastercard that the merchant's bank pays to the customer's bank on every card transaction.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>It's the single biggest slice of what card acceptance costs them — the thing they feel and complain about.</p>
+      <p class="ex"><span class="lbl">For example</span>Every card sale carries interchange; it's usually the largest line in a merchant's processing cost.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Interchange Plus <small>(IC+)</small></div>
+      <p class="def"><span class="lbl">Definition</span>A transparent pricing model: the merchant pays the true interchange rate plus a fixed, visible markup — not a blended flat rate that hides the margin.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>They can finally see what's cost versus what's the processor's cut. Transparency is a selling point against flat-rate competitors.</p>
+      <p class="ex"><span class="lbl">For example</span>On an IC+ statement, interchange is separated cleanly from the processor's margin.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Network fee</div>
+      <p class="def"><span class="lbl">Definition</span>A small fee the card networks charge for using their infrastructure, on top of interchange.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>It's a fixed cost of accepting cards they can't negotiate away — context for why the total rate looks the way it does.</p>
+      <p class="ex"><span class="lbl">For example</span>A network fee, usually under 0.15%, rides along with every Visa or Mastercard transaction.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Processing fee</div>
+      <p class="def"><span class="lbl">Definition</span>The all-in cost per transaction — interchange, network fees, and the processor's markup combined.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>This is the number they actually compare between providers. Knowing what's inside it lets you show where Sky saves them money.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant pays one blended processing fee per sale.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Service fee <small>or surcharge</small></div>
+      <p class="def"><span class="lbl">Definition</span>An added fee passed to the customer who chooses to pay by credit card, offsetting the merchant's processing cost.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>It can move card fees off their P&amp;L entirely — but the rules are strict, which is exactly why they need a provider who handles it compliantly.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant applies a 3% service fee when a customer opts to pay by credit card.</p>
+    </div>
+
+    <div class="grp reveal">The products you sell</div>
+
+    <div class="entry reveal">
+      <div class="term">3DS <small>(3-D Secure)</small><span class="loc">in SkyOS + EasyPay</span></div>
+      <p class="def"><span class="lbl">Definition</span>A verification step that confirms the person entering a card online is the real cardholder before the payment clears.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>It shuts down fraud and chargebacks on card-not-present payments — the riskiest kind, because the card was never in hand.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant sends a SkyOS payment link; the customer gets a one-time prompt from their bank before the charge goes through.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Dual routing <small>or dual processing</small><span class="loc verify">in SkyOS / Fractal · verify</span></div>
+      <p class="def"><span class="lbl">Definition</span>Giving the system two processing paths and letting it automatically pick the cheaper one per transaction. It's an addition to the merchant's setup, not a replacement.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>Lower cost on every transaction with nothing new to manage — the system does the choosing.</p>
+      <p class="ex"><span class="lbl">For example</span>Dual routing quietly selects the lower-cost path on each sale without the merchant lifting a finger.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Hosted payment page<span class="loc verify">in SkyOS · verify</span></div>
+      <p class="def"><span class="lbl">Definition</span>A secure page where a customer enters card details, so sensitive data never touches the merchant's own systems.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>It takes them out of the security firing line — less compliance burden, less risk.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant sends customers to a hosted page to collect payment safely.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">NFC <small>or tap-to-pay</small></div>
+      <p class="def"><span class="lbl">Definition</span>Contactless payment where a card or phone is tapped near a terminal instead of swiped or inserted.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>Faster checkout at the counter or the truck — less waiting, especially for COD pickups.</p>
+      <p class="ex"><span class="lbl">For example</span>The PAX A920 terminal takes a tap-to-pay from a customer's phone at will-call.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Pay by Bank<span class="loc">in SkyFi</span></div>
+      <p class="def"><span class="lbl">Definition</span>An ACH option that lets a customer pay an invoice straight from their bank account — no card involved.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>It kills card fees on those payments, speeds up deposits, and simplifies reconciliation. This is the flagship cost-saver.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant offers Pay by Bank to account customers who'd otherwise pay by card, cutting the fee to a fraction.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Payment optimization<span class="loc">in SkyOS</span></div>
+      <p class="def"><span class="lbl">Definition</span>Steering customers toward the lowest-cost way to pay by showing the price difference right at checkout.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>Customers shift their own behavior when they can see card costs more — the merchant saves without policing anyone.</p>
+      <p class="ex"><span class="lbl">For example</span>When Pay by Bank shows as cheaper than card at checkout, more customers pick it on their own.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Same-day deposit<span class="loc">in SkyFi</span></div>
+      <p class="def"><span class="lbl">Definition</span>A funding option for underwritten SkyFi merchants that delivers Pay by Bank payments the same business day.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>It removes the "but ACH is slow" objection — they get paid as fast as a card, without card fees.</p>
+      <p class="ex"><span class="lbl">For example</span>An underwritten account gets Pay by Bank funds same-day, matching card speed at a cost of pennies.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Tokenization<span class="loc">in Fractal</span></div>
+      <p class="def"><span class="lbl">Definition</span>Replacing a stored card number with a random stand-in "token," so real account data is never sitting exposed.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>Stored cards for repeat customers stay usable but not stealable — safety without friction.</p>
+      <p class="ex"><span class="lbl">For example</span>A saved card is tokenized so the actual number is never held in the clear.</p>
+    </div>
+
+    <div class="grp reveal">The problems you solve</div>
+
+    <div class="entry reveal">
+      <div class="term">AR aging <small>or DSO</small></div>
+      <p class="def"><span class="lbl">Definition</span>"Days sales outstanding" is how long it takes to collect after a sale; "aging" is how overdue the unpaid invoices are.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>Slow collection is a tax on their cash — money already spent on labor and materials, stuck in someone else's hands. Faster payment is the pitch.</p>
+      <p class="ex"><span class="lbl">For example</span>If account customers take 52 days on average to pay, DSO is 52; invoices past 90 days are "aged" and a cash-flow warning.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Chargeback</div>
+      <p class="def"><span class="lbl">Definition</span>A customer-initiated dispute that reverses a completed card payment — the merchant loses the funds and pays a penalty fee.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>A single reversal can wipe out the margin on several loads. Reducing them is a concrete dollar value you can sell.</p>
+      <p class="ex"><span class="lbl">For example</span>A customer disputes a delivery charge; the supplier has the money pulled back plus a fee, even though the product shipped.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Reconciliation <small>(ticket-to-cash)</small></div>
+      <p class="def"><span class="lbl">Definition</span>Matching each payment back to the right invoice, ticket, and job so the books are accurate.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>When payments live in one system and tickets in another, this is manual, error-prone misery. Doing it automatically saves real office hours.</p>
+      <p class="ex"><span class="lbl">For example</span>A supplier ties a card payment back to the specific delivery ticket and job by hand every month — until it's automated.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Refund</div>
+      <p class="def"><span class="lbl">Definition</span>Returning funds to a customer after a completed sale.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>Knowing a refund reverses a settled sale (versus a void, which cancels one before it settles) keeps them from double-charging or panicking.</p>
+      <p class="ex"><span class="lbl">For example</span>A customer overpays; the merchant issues a refund directly in SkyOS.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Void</div>
+      <p class="def"><span class="lbl">Definition</span>Cancelling a transaction before it settles, so no money ever moves.</p>
+      <p class="why"><span class="lbl">Why the merchant cares</span>Catching a mistake before batch close means no refund fee and no waiting — a clean cancel.</p>
+      <p class="ex"><span class="lbl">For example</span>A customer switches payment methods before the day's batch closes; the merchant voids the first charge.</p>
+    </div>
+
+    <div class="grp reveal">The deal paperwork &amp; IDs you'll name</div>
+
+    <div class="entry reveal">
+      <div class="term">GPV <small>(Gross Processing Volume)</small></div>
+      <p class="def"><span class="lbl">Definition</span>The total dollar amount a merchant runs through processing over a period.</p>
+      <p class="why"><span class="lbl">Why a rep cares</span>It's the size of the account. It drives residuals, and it determines which underwriting path a deal takes.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant processing $400K a month has roughly $4.8M in annual GPV.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">MCC <small>(Merchant Category Code)</small></div>
+      <p class="def"><span class="lbl">Definition</span>A four-digit code the card networks use to classify what kind of business a merchant is.</p>
+      <p class="why"><span class="lbl">Why a rep cares</span>The MCC shapes a merchant's interchange rates — so it quietly affects their costs and how they're underwritten.</p>
+      <p class="ex"><span class="lbl">For example</span>A ready-mix supplier is coded MCC 1771 (concrete work).</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">MID <small>(Merchant ID)</small></div>
+      <p class="def"><span class="lbl">Definition</span>The unique number assigned to a merchant's processing account, used for tracking and settlement.</p>
+      <p class="why"><span class="lbl">Why a rep cares</span>It's how every transaction and residual ties back to that merchant — the account's fingerprint.</p>
+      <p class="ex"><span class="lbl">For example</span>Every SkyOS transaction is tied to a MID for accurate reporting.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">MPA <small>(Merchant Processing Agreement)</small></div>
+      <p class="def"><span class="lbl">Definition</span>The contract that sets the terms between the merchant and the payment provider; it must be signed before live processing.</p>
+      <p class="why"><span class="lbl">Why a rep cares</span>It's the gate into registration — no MPA, no processing. Knowing it's coming lets you set expectations early.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant signs the MPA, and the deal is ready to move into registration.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+<section id="pipeline">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="over">Part one · the pipeline</p>
+      <h2>The deal stages, start to close</h2>
+      <p class="lead">First: a <em>deal</em> (also called an opportunity) is a single potential sale, tracked from first interest all the way to close. In HubSpot, each merchant you're working is one deal that moves down these stages as it progresses. This is a pipeline, not a timeline — a deal doesn't sit on a clock; it moves when the work moves it.</p>
+    </div>
+
+    <div class="pipe reveal">
+      <div class="stage"><div class="rail"><div class="dot">1</div><div class="line"></div></div><div class="body"><h4>Interest Verified</h4><p class="d">The deal is created here. You've confirmed the merchant is genuinely interested — a real conversation happened and there's a reason to work the opportunity. Not just curiosity.</p><p class="ex"><span class="lbl">For example</span>A lumber-yard owner replies to your outreach, frustrated with card fees. You create the deal; it lands in Interest Verified.</p></div></div>
+      <div class="stage"><div class="rail"><div class="dot">2</div><div class="line"></div></div><div class="body"><h4>Qualified to Buy</h4><p class="d">The merchant has surfaced real pain, shown buying intent, and you can see our solution fits. Interested became a fit.</p><p class="ex"><span class="lbl">For example</span>The owner says fees are eating margin and they run ~$400K a month. Pain, intent, and fit — move to Qualified to Buy.</p></div></div>
+      <div class="stage"><div class="rail"><div class="dot">3</div><div class="line"></div></div><div class="body"><h4>Demo Scheduled</h4><p class="d">A demo is officially booked on a sales engineer's calendar. By this point pain points are known, business qualification has happened, and the selling points are identified — the demo isn't a fishing trip.</p><p class="ex"><span class="lbl">For example</span>The SE's calendar holds a Thursday 2pm demo; the stage moves to Demo Scheduled.</p></div></div>
+      <div class="stage"><div class="rail"><div class="dot">4</div><div class="line"></div></div><div class="body"><h4>Demo Complete</h4><p class="d">The sales engineer has delivered the demo. There's no qualified-or-unqualified split at this stage — if a demo happened, the deal lands here.</p><p class="ex"><span class="lbl">For example</span>The SE finishes the walkthrough; the deal moves to Demo Complete regardless of how it went.</p></div></div>
+      <div class="stage"><div class="rail"><div class="dot">5</div><div class="line"></div></div><div class="body"><h4>Decision Maker Bought In</h4><p class="d">The person who actually makes the decision has given a verbal yes or a go-ahead. You're moving forward with the opportunity.</p><p class="ex"><span class="lbl">For example</span>The owner says "let's do it." The deal moves to Decision Maker Bought In.</p></div></div>
+      <div class="stage"><div class="rail"><div class="dot">6</div><div class="line"></div></div><div class="body"><h4>Registration Submitted</h4><p class="d">The merchant has completed all registration documentation and it's been submitted to the underwriting team for review and approval.</p><p class="ex"><span class="lbl">For example</span>Signed MPA and supporting docs go to Underwriting; the deal moves to Registration Submitted.</p></div></div>
+      <div class="stage"><div class="rail"><div class="dot">7</div><div class="line"></div></div><div class="body"><h4>Registered</h4><p class="d">Our internal underwriting team has verified the registration. It's processed, approved, and good to go.</p><p class="ex"><span class="lbl">For example</span>Underwriting clears the account; the deal moves to Registered.</p></div></div>
+      <div class="stage"><div class="rail"><div class="dot">8</div><div class="line"></div></div><div class="body"><h4>Training Stage</h4><p class="d">Training has been scheduled with the merchant to get them ready to process.</p><p class="ex"><span class="lbl">For example</span>The onboarding session is booked; the deal moves to Training Stage.</p></div></div>
+      <div class="stage won"><div class="rail"><div class="dot">✓</div></div><div class="body"><h4>Closed Won</h4><p class="d">The merchant has successfully processed payments with us and met the payment threshold. They're a live customer.</p><p class="ex"><span class="lbl">For example</span>The first live batch clears; the deal is Closed Won.</p></div></div>
+    </div>
+
+    <div class="offramp reveal">
+      <div class="stage lost"><div class="rail"><div class="dot">✕</div><div class="line"></div></div><div class="body"><h4>Closed Lost</h4><p class="d">The opportunity didn't move forward — unqualified on business or technical grounds, or we simply fell short. Often this happens after Demo Complete when business qualification didn't happen up front; it also catches any opportunity we lose, demo or not.</p><p class="ex"><span class="lbl">For example</span>After the demo, technical qualification reveals the merchant can't integrate the way they'd need to.</p></div></div>
+      <div class="stage lost"><div class="rail"><div class="dot">↩</div></div><div class="body"><h4>Closed Lost — Churned</h4><p class="d">They were a live customer but have since left, for whatever reason.</p><p class="ex"><span class="lbl">For example</span>An account that had been processing closes six months in.</p></div></div>
+    </div>
+
+    <div class="note reveal"><b>One stage still needs a definition</b>Quick Registration exists in the pipeline but doesn't have a confirmed definition yet — it's flagged here rather than guessed at. Once you define it, this entry gets written to match the others.</div>
+  </div>
+</section>
+
+<hr class="rule">
+<section id="solutioning">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="over">Part one · speaking their build language</p>
+      <h2>The solutioning timeline</h2>
+      <p class="lead">A <em>different</em> timeline from the pipeline above. The pipeline is <em>our</em> deal moving through HubSpot. This is <em>the merchant's</em> project lifecycle — especially a contractor's — from idea to go-live. You don't run any of it; you just need to recognize the words so you can speak to a go-live at a high level and never over-promise the middle.</p>
+    </div>
+    <div class="soln reveal">
+      <div class="step"><div class="n">first</div><div class="t">Planning</div><div class="d">Scoping what's being built and what it needs to do. Requirements, not code.</div></div>
+      <div class="step"><div class="n">then</div><div class="t">Prototype</div><div class="d">A rough, throwaway version to test whether the idea holds up.</div></div>
+      <div class="step"><div class="n">then</div><div class="t">Design</div><div class="d">Deciding how it will look and work — the blueprint the build follows.</div></div>
+      <div class="step"><div class="n">then</div><div class="t">Development</div><div class="d">The real building. Turning the design into a working system.</div></div>
+      <div class="step"><div class="n">then</div><div class="t">Testing</div><div class="d">Checking it works and is safe before anyone relies on it.</div></div>
+      <div class="step"><div class="n">finally</div><div class="t">Live</div><div class="d">In production — real users, real money, real work running through it.</div></div>
+    </div>
+    <p class="lead reveal" style="margin-top:18px;font-size:17px">When a merchant says "we're still in testing" or "once we go live," you know exactly where they are and can meet them there — without promising a date the implementation team owns.</p>
+  </div>
+</section>
+
+<hr class="rule">
+<section id="part2">
+  <div class="wrap">
+    <div class="interlude reveal">crossing behind the curtain</div>
+    <div class="opener reveal">
+      <p class="over">Part two</p>
+      <h2>Behind the curtain — understand, don't run</h2>
+      <p>This is the middle of the process: underwriting, banking, compliance, and the processing backbone. A rep never operates any of it — but you must <em>understand</em> it, because the fastest way to lose a merchant's trust (and drive your own turnover) is to over-promise something you don't control. Each back-office term names the human who owns it, so you route instead of guess.</p>
+    </div>
+
+    <div class="grp reveal">Underwriting &amp; registration</div>
+
+    <div class="entry reveal">
+      <div class="term">$3M annual threshold</div>
+      <p class="def"><span class="lbl">Definition</span>When a merchant's annual processing volume crosses roughly $3M, the deal takes a heavier underwriting path that requires a second concurrence — a second internal sign-off.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>Your biggest, most exciting accounts move <em>slower</em> through registration by design. Knowing this keeps you from promising a large merchant a fast turn.</p>
+      <p class="ex"><span class="lbl">For example</span>A high-volume aggregates supplier trips the $3M threshold, so registration needs the second-concurrence review.</p>
+      <p class="why"><span class="lbl">Who to call</span>Jess, in Underwriting.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">KYB <small>(Know Your Business)</small></div>
+      <p class="def"><span class="lbl">Definition</span>Verifying that a business is legitimate — confirming its registration and ownership structure.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>If a merchant's business docs are messy, this is where a deal slows. Setting the expectation early saves a painful surprise at registration.</p>
+      <p class="ex"><span class="lbl">For example</span>Underwriting confirms a company's registration details and who actually owns it.</p>
+      <p class="why"><span class="lbl">Who to call</span>Jess, in Underwriting.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">KYC <small>(Know Your Customer)</small></div>
+      <p class="def"><span class="lbl">Definition</span>Verifying the identity of the individuals behind an account before granting financial access.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It's a legal requirement, not red tape. Framing it that way turns a "why do you need my ID?" moment into a sign of a serious provider.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant submits ID and proof of address so the account can complete KYC before activation.</p>
+      <p class="why"><span class="lbl">Who to call</span>Jess, in Underwriting.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">OFAC screening</div>
+      <p class="def"><span class="lbl">Definition</span>An automated check of every applicant against the U.S. Treasury's sanctions list, run during SkyFi onboarding.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It's one more routine reason activation takes a beat. You can reassure without inventing a timeline.</p>
+      <p class="ex"><span class="lbl">For example</span>A new applicant is auto-screened against the OFAC list before the account is approved.</p>
+      <p class="why"><span class="lbl">Who to call</span>Jess, in Underwriting.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">TIN <small>&amp; the 147-C letter</small></div>
+      <p class="def"><span class="lbl">Definition</span>The Taxpayer Identification Number identifies the business to the IRS. A 147-C is the IRS letter that re-confirms that number when records don't match.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>A TIN mismatch is one of the most common reasons registration stalls. Knowing the 147-C exists lets you tell a stuck merchant exactly what unblocks them.</p>
+      <p class="ex"><span class="lbl">For example</span>Underwriting flags a name/TIN mismatch; the merchant requests a 147-C from the IRS to clear it.</p>
+      <p class="why"><span class="lbl">Who to call</span>Jess, in Underwriting.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Underwriting</div>
+      <p class="def"><span class="lbl">Definition</span>The review of a business's risk profile — credit, ownership, compliance — before payment processing is switched on.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>This is why boarding isn't instant. You can reassure a merchant the review is routine; you cannot promise an approval or a timeline you don't control.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant's application sits in the underwriting queue for risk review before activation.</p>
+      <p class="why"><span class="lbl">Who to call</span>Jess, in Underwriting.</p>
+    </div>
+
+    <div class="grp reveal">Banking &amp; the SkyFi backbone</div>
+
+    <div class="entry reveal">
+      <div class="term">Embedded finance</div>
+      <p class="def"><span class="lbl">Definition</span>Financial services built directly into a non-financial platform, so a merchant banks and pays without leaving the software they run their business in.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It's the "why is banking inside your software?" answer — one place to manage money instead of five tools.</p>
+      <p class="ex"><span class="lbl">For example</span>SkyFi puts business checking and payments right inside SkyOS.</p>
+      <p class="why"><span class="lbl">Who to call</span>Sawyer, on SkyFi.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Grasshopper Bank, N.A.</div>
+      <p class="def"><span class="lbl">Definition</span>The FDIC-member bank that provides the actual banking rails and holds deposits behind SkyFi. It's a behind-the-scenes layer — merchants rarely need the name, but you must get the relationship right.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>SkyFi is not a bank — Grasshopper is. Getting this right isn't optional; it's a required compliance line whenever you talk about SkyFi banking.</p>
+      <p class="ex"><span class="lbl">For example</span>A merchant's SkyFi checking account and deposits are actually held at Grasshopper Bank.</p>
+      <p class="why"><span class="lbl">Who to call</span>Sawyer, on SkyFi.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">MSB <small>(Money Services Business)</small></div>
+      <p class="def"><span class="lbl">Definition</span>A legal classification for companies that transmit or exchange money for others, carrying federal registration duties.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It explains why the SkyFi and Grasshopper structure exists — the regulatory frame that keeps everything above-board.</p>
+      <p class="ex"><span class="lbl">For example</span>SkyFi operates under Grasshopper's MSB partnership for regulatory coverage.</p>
+      <p class="why"><span class="lbl">Who to call</span>Sawyer, on SkyFi.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Reconciliation <small>(the nightly bank match)</small></div>
+      <p class="def"><span class="lbl">Definition</span>Matching Sky's internal records against Grasshopper's bank data every night to confirm every deposit and withdrawal lines up. Distinct from the merchant's own ticket-to-cash reconciliation in Part one.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>If a merchant ever questions a deposit, this is the process that resolves it.</p>
+      <p class="ex"><span class="lbl">For example</span>Nightly reconciliation ties ACH payments, fees, and disbursements out to the bank.</p>
+      <p class="why"><span class="lbl">Who to call</span>Shannon, in Reconciliation.</p>
+    </div>
+
+    <div class="grp reveal">Compliance &amp; risk</div>
+
+    <div class="entry reveal">
+      <div class="term">BSA / AML</div>
+      <p class="def"><span class="lbl">Definition</span>The Bank Secrecy Act and Anti-Money-Laundering rules requiring financial providers to monitor for and report suspicious activity.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It's the reason certain accounts and patterns get extra scrutiny — not the provider being difficult, but the law doing its job.</p>
+      <p class="ex"><span class="lbl">For example</span>Monitoring flags unusual transfer patterns to satisfy BSA/AML obligations.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">CTR <small>(Currency Transaction Report)</small></div>
+      <p class="def"><span class="lbl">Definition</span>A required government filing for cash or cash-equivalent transactions over $10,000 in a single business day.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>Context for cash-heavy merchants — big cash days trigger routine reporting, nothing sinister.</p>
+      <p class="ex"><span class="lbl">For example</span>Grasshopper files a CTR automatically when a large merchant deposit crosses the threshold.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">PCI DSS</div>
+      <p class="def"><span class="lbl">Definition</span>The card-industry security standard for safely handling cardholder data across processing, storage, and transmission.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>A merchant may ask "is my customers' card data safe?" The answer is yes, and PCI DSS Level 1 is the name for it.</p>
+      <p class="ex"><span class="lbl">For example</span>Fractal maintains PCI DSS Level 1 compliance so merchants meet card-security requirements.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">SAR <small>(Suspicious Activity Report)</small></div>
+      <p class="def"><span class="lbl">Definition</span>A confidential filing a financial institution makes when it spots transactions that may signal fraud or money laundering.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>You'll never file one, but knowing it exists explains why compliance sometimes can't share details about an account.</p>
+      <p class="ex"><span class="lbl">For example</span>SkyFi files SARs through Grasshopper when activity meets reporting thresholds.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">SOC 2</div>
+      <p class="def"><span class="lbl">Definition</span>An audit framework validating how a company secures and manages customer data.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It's trust in a certificate — useful proof for a larger, more cautious merchant that Sky is buttoned-up.</p>
+      <p class="ex"><span class="lbl">For example</span>Sky undergoes annual SOC 2 Type 2 certification.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Transaction monitoring &amp; risk scoring</div>
+      <p class="def"><span class="lbl">Definition</span>Continuous, automated watching of payments for unusual patterns, and a numeric risk score that guides how closely a merchant is overseen.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It explains why a sudden spike in refunds or volume can trigger a review — the system is protecting the merchant and Sky alike.</p>
+      <p class="ex"><span class="lbl">For example</span>A sudden surge in chargebacks raises a merchant's risk score and prompts a compliance look.</p>
+    </div>
+
+    <div class="grp reveal">The processing backbone</div>
+
+    <div class="entry reveal">
+      <div class="term">ACH <small>(Automated Clearing House)</small></div>
+      <p class="def"><span class="lbl">Definition</span>The U.S. network that moves bank-to-bank transfers in batches, typically within one to two business days, far cheaper than card.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It powers Pay by Bank. The cost savings you sell come directly from moving a payment off cards and onto ACH.</p>
+      <p class="ex"><span class="lbl">For example</span>A Pay by Bank invoice settles over ACH rather than Visa or Mastercard.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Clearing</div>
+      <p class="def"><span class="lbl">Definition</span>The step where transaction details pass from the merchant's (acquiring) bank to the customer's (issuing) bank before settlement.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It's the invisible middle between "approved" and "funded" — helpful when a merchant asks why money isn't instant.</p>
+      <p class="ex"><span class="lbl">For example</span>Clearing happens between banks after authorization and before settlement finalizes.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Fiserv</div>
+      <p class="def"><span class="lbl">Definition</span>The processing backbone that Fractal — and both the Sky and Fractal product lines — ultimately run on.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It's the shared foundation under both divisions. You won't sell it, but you should know the ground you're standing on.</p>
+      <p class="ex"><span class="lbl">For example</span>Both Sky merchant services and Command Cloud / EasyPay share the Fiserv processing backbone.</p>
+      <p class="why"><span class="lbl">Who to call</span>Chris &amp; Misty, in Fractal Ops.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Gateway</div>
+      <p class="def"><span class="lbl">Definition</span>The secure technology that carries payment data between SkyOS and the processor, encrypting it in transit.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>It's the plumbing behind "is this secure?" — data is encrypted and never stored in the clear.</p>
+      <p class="ex"><span class="lbl">For example</span>The gateway encrypts each transaction before it's submitted for authorization.</p>
+    </div>
+    <div class="entry reveal">
+      <div class="term">Payment rails</div>
+      <p class="def"><span class="lbl">Definition</span>The underlying networks that move money — card networks, ACH, RTP, wire.</p>
+      <p class="why"><span class="lbl">Why a rep should care</span>"Pay by Bank rides ACH, not Visa" is a rail distinction — and it's the whole reason it's cheaper.</p>
+      <p class="ex"><span class="lbl">For example</span>Pay by Bank uses the ACH rail instead of the card networks.</p>
+    </div>
+
+    <div class="note reveal"><b>Required disclosure — memorize this</b>Whenever you discuss SkyFi banking: <em>"SkyFi is not a bank; banking services are provided by Grasshopper Bank, N.A., Member FDIC. FDIC insurance only covers the failure of the bank itself."</em> This is not optional phrasing — it must appear in SkyFi-related materials and conversations.</div>
+  </div>
+</section>
+
+<hr class="rule">
+<section id="icp">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="over">The people on the other end of the phone</p>
+      <h2>Who we actually sell to</h2>
+      <p class="lead">Everything above is <em>our</em> world. This is <em>theirs</em>. Our ideal customers cluster into three worlds that look alike from the outside but pay — and get paid — in completely different ways. Learn how each runs, the words they use, how money flows, and the software you'll walk into. Each software note defines the <em>kind</em> of tool first — the durable knowledge — then names real examples.</p>
+    </div>
+
+    <div class="vert reveal">
+      <p class="role">first world · you're talking to the merchant</p>
+      <h3>Material producers</h3>
+      <p class="intro">They make or supply the physical stuff a jobsite runs on — ready-mix concrete, aggregates, asphalt, lumber, building supply. They <b>sell a product and collect for it</b>, which makes them the merchant. This is our sweet spot, because collecting money is exactly where card fees, fraud, and slow AR live.</p>
+      <div class="vrow"><div class="vlbl">How they work</div><p>An order comes in, product is produced or loaded, and it's delivered with a <b>ticket</b> that proves quantity. Then one of two things happens: the customer pays at delivery (<b>COD</b>), or they're billed to pay later (<b>on account</b>). That single flag decides everything downstream.</p></div>
+      <div class="vrow"><div class="vlbl">How money flows</div><p><b>COD</b> means cash, check, or card at or before delivery — the driver, dispatcher, or office can take it. <b>Account</b> means an invoice on net terms and no money at the jobsite. Card is common and rising, which is exactly where the fee pain bites.</p></div>
+      <div class="vrow"><div class="vlbl">The software you'll walk into</div>
+        <div class="swline"><span class="cat">Dispatching software</span> <span class="kind">— the operational hub.</span><div class="txt">The system that runs their whole day: it takes the order, schedules and tracks the truck or load, and generates the delivery ticket. If a producer names one of these, that's where their operation lives — and often where invoices originate.</div><div class="egs">e.g. Command Alkon / Command Cloud, Sysdyne, Keystone.</div></div>
+        <div class="swline"><span class="cat">Batching software</span> <span class="kind">— plant production control.</span><div class="txt">Controls the actual mixing and production at the plant — proportioning materials to spec. Usually tied into dispatch rather than a separate tool the office logs into.</div><div class="egs">e.g. Command Alkon (Integra / Apex), Sysdyne. <span class="vf">· verify</span></div></div>
+        <div class="swline"><span class="cat">ERP</span> <span class="kind">— enterprise resource planning.</span><div class="txt">The big system that runs the whole business — books, inventory, orders, operations — in one place. Larger producers run their invoicing and AR from here.</div><div class="egs">e.g. Epicor BisTrack, DMSi Agility, ECI Spruce, Acumatica, NetSuite.</div></div>
+        <div class="swline"><span class="cat">Accounting software</span> <span class="kind">— the books &amp; invoicing.</span><div class="txt">Narrower than an ERP — it tracks the books, invoicing, and AR/AP but doesn't run operations. Smaller producers bill straight from here. The key discovery question: where does the card or ACH actually get captured — inside this, or a processor bolted on beside it?</div><div class="egs">e.g. QuickBooks, Sage.</div></div>
+      </div>
+      <div class="vrow"><div class="vlbl">Their words</div><p><b>COD</b> vs. <b>account customer</b> · <b>ticket</b> · <b>net 30 / 60 / 90</b> · <b>will-call</b> (customer picks up rather than gets delivery) · <b>DSO / AR aging</b> · <b>MCC</b>. If these come up naturally, you're talking to a material producer.</p></div>
+    </div>
+
+    <div class="vert con reveal">
+      <p class="role">second world · they buy material and build</p>
+      <h3>Contractors</h3>
+      <p class="intro">They buy material from the producers above and <b>perform the build</b> — a house, a parking lot, a commercial site. Their world is <b>project-based</b>: they win a job, run it through phases, and get paid as they make progress. They think in projects and schedules, not tickets and loads.</p>
+      <div class="vrow"><div class="vlbl">How they work</div><p>They win a job (bid or referral), then run it from planning through to completion. Because work spans weeks or months, they bill their customer <b>in progress</b> and pay their own suppliers <b>on account</b>. This is where the solutioning timeline vocabulary — planning, design, development, testing, live — actually shows up in conversation.</p></div>
+      <div class="vrow"><div class="vlbl">How money flows</div><p>They're often paid in stages as the project advances, and they carry the cost of labor and materials in between. Cash timing — not backlog — is what caps how much work they can run at once.</p></div>
+      <div class="vrow"><div class="vlbl">The software you'll walk into</div>
+        <div class="swline"><span class="cat">Project management software</span> <span class="kind">— the go-to for this world.</span><div class="txt">The system that plans, schedules, tracks, and documents a construction project from bid to closeout — budgets, change orders, daily logs, and often billing all in one place. If a contractor names one of these, it's the spine of how they run jobs.</div><div class="egs">e.g. Procore, Buildertrend, CoConstruct.</div></div>
+        <div class="swline"><span class="cat">Accounting / ERP</span> <span class="kind">— the books behind the jobs.</span><div class="txt">Underneath the project tool, the books still live somewhere — construction-flavored accounting or a general system, tracking job costing and AP/AR.</div><div class="egs">e.g. QuickBooks, Sage 100/300 Contractor, Foundation.</div></div>
+      </div>
+      <div class="vrow"><div class="vlbl">Their words</div><p><b>bid / job</b> · <b>progress billing</b> · <b>change order</b> · <b>closeout</b> · <b>net terms</b> to their suppliers · the <b>project lifecycle</b> language. They talk about projects and phases, not deliveries.</p></div>
+    </div>
+
+    <div class="vert civ reveal">
+      <p class="role">third world · you're talking to the payee</p>
+      <h3>Heavy civil</h3>
+      <p class="intro">A specialized contractor: they build <b>public infrastructure</b> — roads, bridges, water systems — for public owners like a state DOT or a city. Here the position <b>flips</b>: nobody collects at a point of sale. They perform work and get <b>billed to</b> a large public owner. They're the payee, not the merchant — which is exactly why card usually has no place in their world.</p>
+      <div class="vrow"><div class="vlbl">How they work</div><p>Work is <b>won</b>, not ordered — a competitive bid to a public owner, or a subcontract under a <b>prime</b>. There's no single delivery; progress is measured in quantities against the contract's line items.</p></div>
+      <div class="vrow"><div class="vlbl">How money flows</div><p>Monthly <b>pay applications</b> (a DOT calls it a <b>progress estimate</b>) get submitted, the owner's engineer <b>certifies</b> the quantities, and payment comes about net 30 by <b>ACH or wire</b> — minus <b>retainage</b> (5–10% held back until the whole job closes). No card, anywhere. You can't surcharge a government owner.</p></div>
+      <div class="vrow"><div class="vlbl">The software you'll walk into</div>
+        <div class="swline"><span class="cat">The owner's payment portal</span> <span class="kind">— they're a guest in it.</span><div class="txt">Unlike the other worlds, heavy civil firms don't get paid through their own software — they submit into the <em>customer's</em> portal, a different one per job. That fragmentation is a real pain point, but it's not a card problem.</div><div class="egs">e.g. WAWF / PIEE (DoD), IPP (federal), AASHTOWare Project (state DOT), Textura, GCPay, Procore Pay.</div></div>
+      </div>
+      <div class="vrow"><div class="vlbl">Their words</div><p><b>pay app</b> · <b>progress estimate</b> · <b>retainage</b> · <b>the owner</b> · <b>the prime</b> · <b>sub</b> · <b>lien waiver</b> · <b>certified payroll</b>. If you hear these, you're in heavy civil — qualify hard before spending cycles.</p></div>
+    </div>
+
+    <div class="signal reveal">
+      <p class="over">the one qualifying signal</p>
+      <h3>It's not sector or size — it's card</h3>
+      <p>Across all three worlds, the fastest read on whether there's a real opportunity is a single question: <b>does this business accept card payments today, and do they want to?</b> Card is a live, growing surface for material producers, and essentially absent for heavy civil. If cards aren't part of how they get paid and there's no appetite for them, the fit is thin no matter how big the logo.</p>
+      <div class="split">
+        <div class="s y"><h4>Sounds like a fit</h4><p>"COD" and "on account" come up naturally · customers are contractors, builders, homeowners · they mention dispatch, tickets, drivers · they already take some card and the fees sting · they set their own terms.</p></div>
+        <div class="s n"><h4>Qualify hard</h4><p>"Pay apps," "retainage," "the owner," "the prime" · customers are DOTs and agencies · they log into someone else's portal to get paid · everything is ACH or wire and card never comes up · terms are dictated to them.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+<section id="roster">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="over">when you reach the middle of the process</p>
+      <h2>Who to call</h2>
+      <p class="lead">The back-office terms in Part two each carry an owner. Here they are in one place. When a merchant's deal is stuck in the middle — the part you understand but don't run — this is who you route to instead of guessing or over-promising.</p>
+    </div>
+    <div class="roster reveal">
+      <div class="who"><div class="fn">underwriting</div><div class="nm">Jess</div><p>Registration review, KYC/KYB, TIN &amp; 147-C issues, OFAC, and the $3M second-concurrence path. Anything about why a deal is stuck in registration.</p></div>
+      <div class="who"><div class="fn">boarding &amp; terminal</div><div class="nm">Kassi</div><p>Getting an approved merchant boarded and their terminal set up and running.</p></div>
+      <div class="who"><div class="fn">implementation</div><div class="nm">Josh Bolen</div><p>Standing up the merchant's setup and integration after approval — the go-live work.</p></div>
+      <div class="who"><div class="fn">reconciliation</div><div class="nm">Shannon</div><p>Nightly bank match against Grasshopper. Any question about a deposit that doesn't look right.</p></div>
+      <div class="who"><div class="fn">fractal ops</div><div class="nm">Chris &amp; Misty</div><p>Command Cloud / EasyPay operations and the Fractal processing side.</p></div>
+      <div class="who"><div class="fn">skyfi</div><div class="nm">Sawyer</div><p>Pay-by-bank cross-sell, embedded finance, and anything Grasshopper-related.</p></div>
+    </div>
+    <div class="note reveal"><b>Roster note</b>These owners are carried through from the program's stakeholder map — confirm names and add Slack handles when you're ready, and every "who to call" line in the book will match.</div>
+  </div>
+</section>
+
+<div class="noresult wrap" id="noresult">Nothing matches that word. Try something shorter, or clear the box to see everything.</div>
+
+<footer>
+  <div class="wrap">The Sky Field Book · onboarding reading for Account Sales Managers · part one, what you say — part two, what you understand — the merchant, who you say it to. An educational overview; anything marked "verify" needs a red-line.</div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.06});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  const search=document.getElementById('search');
+  const noresult=document.getElementById('noresult');
+  const searchables=[...document.querySelectorAll('.entry, .eco .node, .vert')];
+  search.addEventListener('input',()=>{
+    const q=search.value.trim().toLowerCase();
+    if(!q){searchables.forEach(el=>el.style.display='');noresult.style.display='none';return;}
+    let vis=false;
+    searchables.forEach(el=>{const hit=el.textContent.toLowerCase().includes(q);el.style.display=hit?'':'none';if(hit)vis=true;});
+    noresult.style.display=vis?'none':'block';
+  });
+</script>
+</body>
+</html>
