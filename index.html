@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sky Field Guide — Product Walkthrough</title>
+<meta name="description" content="Sky Systemz sales-enablement onboarding: a five-chapter product-knowledge field guide for new ASMs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#16150F; --asphalt-2:#1e1c14; --panel:#1c1a13; --panel-2:#211f16;
+    --paper:#EDE6D6; --concrete:#9B978C; --concrete-dim:#726e64;
+    --line:rgba(237,230,214,.12); --line-soft:rgba(237,230,214,.07);
+    --money:#F2A23C; --time:#6BB6C4; --vis:#9A8CC7;
+    --accent:#F2A23C; --accent-soft:rgba(242,162,60,.14);
+    --serif:"Fraunces",Georgia,serif;
+    --sans:"Space Grotesk",system-ui,sans-serif;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --maxw:920px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--asphalt);color:var(--paper);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative;overflow-x:hidden}
+  .amb{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .amb .aggregate{position:absolute;inset:0;opacity:.5;
+    background-image:radial-gradient(rgba(237,230,214,.05) 1px,transparent 1.4px),radial-gradient(rgba(237,230,214,.035) 1px,transparent 1.4px);
+    background-size:26px 26px,40px 40px;background-position:0 0,13px 20px;
+    -webkit-mask-image:radial-gradient(120% 80% at 50% 0%,#000 30%,transparent 90%);mask-image:radial-gradient(120% 80% at 50% 0%,#000 30%,transparent 90%)}
+  .amb .glow{position:absolute;left:50%;top:-10%;width:80vw;max-width:1000px;height:560px;transform:translateX(-50%);
+    background:radial-gradient(circle,var(--accent-soft) 0%,transparent 62%);filter:blur(26px);opacity:.9}
+  .amb .grain{position:absolute;inset:0;opacity:.045;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:clamp(26px,5vw,44px) clamp(18px,4vw,40px) 80px}
+
+  .brand{font-weight:700;letter-spacing:.24em;font-size:11px;color:var(--concrete-dim);text-transform:uppercase}
+  .brand b{color:var(--accent)}
+
+  header.hero{margin-top:clamp(34px,8vh,72px)}
+  .eyebrow{font-weight:600;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--concrete);display:flex;align-items:center;gap:.7em}
+  .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(42px,8vw,88px);line-height:1;letter-spacing:-.02em;margin-top:.3em}
+  h1 .amber{color:var(--accent);position:relative;white-space:nowrap}
+  h1 .amber::after{content:"";position:absolute;left:0;bottom:.05em;height:.06em;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;animation:draw .9s var(--ease) .5s forwards}
+  @keyframes draw{to{transform:scaleX(1)}}
+  .lede{color:var(--concrete);font-size:clamp(16px,1.9vw,20px);max-width:56ch;margin-top:1.15em;line-height:1.55}
+  .meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:22px;color:var(--concrete-dim);font-size:12.5px;letter-spacing:.02em}
+  .meta b{color:var(--paper);font-weight:600}
+
+  .arc{margin-top:clamp(40px,7vh,64px);display:grid;gap:12px}
+  .arc-head{font-weight:600;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--concrete-dim);margin-bottom:2px}
+
+  .ch{--c:var(--concrete-dim);display:flex;align-items:center;gap:clamp(14px,2.4vw,26px);text-decoration:none;color:var(--paper);
+    border:1px solid var(--line);border-left:3px solid var(--c);border-radius:14px;background:var(--panel);
+    padding:18px clamp(16px,2.4vw,24px);transition:transform .18s var(--ease),border-color .25s,background .25s}
+  a.ch.ready{--c:var(--accent);cursor:pointer}
+  a.ch.ready:hover{transform:translateY(-3px);border-color:rgba(242,162,60,.5);background:var(--panel-2)}
+  .ch.locked{opacity:.62}
+  .ch-num{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,40px);color:var(--c);line-height:1;min-width:1.6em;text-align:center;flex:0 0 auto}
+  .ch-body{flex:1;min-width:0}
+  .ch-kicker{font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:var(--c)}
+  .ch-title{font-family:var(--serif);font-weight:600;font-size:clamp(17px,2.3vw,22px);letter-spacing:-.01em;line-height:1.18;margin:3px 0 5px}
+  .ch-desc{font-size:13.5px;color:var(--concrete);line-height:1.5;max-width:60ch}
+  .ch-cta{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;white-space:nowrap}
+  .ch-go{font-weight:600;font-size:14px;color:var(--accent)}
+  .ch-tag{font-weight:600;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--concrete-dim);
+    border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+  .ch-status{font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;display:none}
+  .ch-status.prog{display:inline;color:var(--time)}
+  .ch-status.done{display:inline;color:var(--accent)}
+  @media(max-width:560px){
+    .ch-desc{display:none}
+    .ch{gap:14px}
+  }
+
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line-soft);color:var(--concrete-dim);font-size:12px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;letter-spacing:.02em}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="amb"><div class="aggregate"></div><div class="glow"></div><div class="grain"></div></div>
+
+<div class="wrap">
+  <div class="brand">SKY <b>/</b> FIELD GUIDE</div>
+
+  <header class="hero">
+    <p class="eyebrow"><span class="dot"></span>Sky Systemz · Sales Enablement</p>
+    <h1>Learn to hear the <span class="amber">leak</span>.</h1>
+    <p class="lede">The product-knowledge field guide for new ASMs. Five chapters, worked in order — start with the merchant's problem, learn what SkyOS is and what it replaces, then prove you can tell the story cold. Product is taught as the answer to a pain, never as a feature tour.</p>
+    <div class="meta"><span><b>5</b> chapters</span><span><b>Watch → Study → Prove → Test</b> in each</span><span>Chapter 1 <b>live</b></span></div>
+  </header>
+
+  <section class="arc">
+    <p class="arc-head">The five-chapter arc</p>
+
+    <a class="ch ready" href="Chapter1_Onboarding_Hub.html">
+      <span class="ch-num">01</span>
+      <span class="ch-body">
+        <span class="ch-kicker">The Problem</span>
+        <span class="ch-title">Where Merchants Bleed Time &amp; Money</span>
+        <span class="ch-desc">Learn to hear a merchant's pain — money, time, visibility — in their own words, before you ever mention a product.</span>
+      </span>
+      <span class="ch-cta">
+        <span class="ch-status" data-progress></span>
+        <span class="ch-go" id="ch1go">Start →</span>
+      </span>
+    </a>
+
+    <div class="ch locked">
+      <span class="ch-num">02</span>
+      <span class="ch-body">
+        <span class="ch-kicker">The Platform</span>
+        <span class="ch-title">What SkyOS Is &amp; What It Replaces</span>
+        <span class="ch-desc">Deliver the "one connected system that replaces X, Y, Z" narrative, and map each pain to the capability that closes it.</span>
+      </span>
+      <span class="ch-cta"><span class="ch-tag">Soon</span></span>
+    </div>
+
+    <div class="ch locked">
+      <span class="ch-num">03</span>
+      <span class="ch-body">
+        <span class="ch-kicker">The Money Engine</span>
+        <span class="ch-title">How Sky Saves &amp; Makes Merchants Money</span>
+        <span class="ch-desc">Explain how the money moves and where the merchant wins — and put rough numbers on it.</span>
+      </span>
+      <span class="ch-cta"><span class="ch-tag">Soon</span></span>
+    </div>
+
+    <div class="ch locked">
+      <span class="ch-num">04</span>
+      <span class="ch-body">
+        <span class="ch-kicker">The Full Picture</span>
+        <span class="ch-title">Customer Journey &amp; The Road Ahead</span>
+        <span class="ch-desc">What a merchant experiences after signing, how to set expectations, and how to speak to the roadmap without selling it.</span>
+      </span>
+      <span class="ch-cta"><span class="ch-tag">Soon</span></span>
+    </div>
+
+    <div class="ch locked">
+      <span class="ch-num">05</span>
+      <span class="ch-body">
+        <span class="ch-kicker">Positioning &amp; Proof</span>
+        <span class="ch-title">Making It Land</span>
+        <span class="ch-desc">Hold your own in front of a buyer — position against the status quo, tell the value story, field the questions. Certification.</span>
+      </span>
+      <span class="ch-cta"><span class="ch-tag">Soon</span></span>
+    </div>
+  </section>
+
+  <footer>
+    <span>Internal use only · Sky Systemz Sales Enablement</span>
+    <span>Product knowledge · not MEDDICC methodology</span>
+  </footer>
+</div>
+
+<script>
+  // Reflect saved Chapter 1 progress (same-origin on GitHub Pages)
+  (function(){
+    try{
+      var s=JSON.parse(localStorage.getItem('skyFieldGuide.ch1.v1')||'{}');
+      var badge=document.querySelector('[data-progress]');
+      var go=document.getElementById('ch1go');
+      if(s && s.done && s.done.test){
+        badge.textContent='Complete ✓'; badge.className='ch-status done';
+        if(go) go.textContent='Revisit →';
+      } else if(s && s.current && s.current!=='watch'){
+        badge.textContent='In progress'; badge.className='ch-status prog';
+        if(go) go.textContent='Continue →';
+      }
+    }catch(e){}
+  })();
+</script>
+</body>
+</html>
