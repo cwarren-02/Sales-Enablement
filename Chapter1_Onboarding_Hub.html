@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1 — The Problem · Sky Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#16150F; --asphalt-2:#1e1c14; --panel:#1c1a13; --panel-2:#211f16;
+    --paper:#EDE6D6; --concrete:#9B978C; --concrete-dim:#726e64;
+    --line:rgba(237,230,214,.12); --line-soft:rgba(237,230,214,.07);
+    --money:#F2A23C; --time:#6BB6C4; --vis:#9A8CC7;
+    --accent:#F2A23C; --accent-soft:rgba(242,162,60,.14);
+    --serif:"Fraunces",Georgia,serif;
+    --sans:"Space Grotesk",system-ui,sans-serif;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --maxw:960px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--asphalt); color:var(--paper);
+    font-family:var(--sans); line-height:1.55;
+    -webkit-font-smoothing:antialiased; min-height:100vh;
+    position:relative; overflow-x:hidden;
+  }
+  /* ambient */
+  .amb{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .amb .aggregate{position:absolute;inset:0;opacity:.5;
+    background-image:radial-gradient(rgba(237,230,214,.05) 1px,transparent 1.4px),radial-gradient(rgba(237,230,214,.035) 1px,transparent 1.4px);
+    background-size:26px 26px,40px 40px;background-position:0 0,13px 20px;
+    -webkit-mask-image:radial-gradient(120% 80% at 50% 0%,#000 30%,transparent 90%);
+            mask-image:radial-gradient(120% 80% at 50% 0%,#000 30%,transparent 90%);}
+  .amb .glow{position:absolute;left:50%;top:-8%;width:80vw;max-width:1000px;height:520px;transform:translateX(-50%);
+    background:radial-gradient(circle,var(--accent-soft) 0%,transparent 62%);filter:blur(24px);transition:background 1s var(--ease);opacity:.9}
+  .amb .grain{position:absolute;inset:0;opacity:.045;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  .wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+
+  /* header */
+  header.site{position:sticky;top:0;z-index:20;backdrop-filter:blur(9px);
+    background:linear-gradient(180deg,rgba(22,21,15,.94),rgba(22,21,15,.78));
+    border-bottom:1px solid var(--line-soft)}
+  .site-inner{max-width:var(--maxw);margin:0 auto;padding:14px clamp(18px,4vw,40px)}
+  .brandbar{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{font-weight:700;letter-spacing:.24em;font-size:11px;color:var(--concrete-dim);text-transform:uppercase;white-space:nowrap}
+  .brand b{color:var(--accent);font-weight:700}
+  .chap{font-family:var(--serif);font-weight:600;font-size:clamp(14px,1.7vw,17px);color:var(--paper);letter-spacing:-.01em}
+  .reset{background:none;border:0;color:var(--concrete-dim);font-family:var(--sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;padding:4px 2px}
+  .reset:hover{color:var(--paper)}
+
+  /* progress rail */
+  .rail{display:flex;gap:6px;margin-top:14px;list-style:none}
+  .step{flex:1;min-width:0;background:none;border:0;text-align:left;cursor:pointer;font-family:var(--sans);
+    padding:0;color:var(--concrete-dim);opacity:.55;transition:opacity .35s,color .35s}
+  .step[data-reachable="1"]{opacity:1;cursor:pointer}
+  .step:not([data-reachable="1"]){cursor:not-allowed}
+  .step .bar{height:3px;border-radius:3px;background:var(--line);transition:background .4s,box-shadow .4s}
+  .step[data-state="done"] .bar{background:var(--accent)}
+  .step[data-state="current"] .bar{background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  .step .meta{display:flex;align-items:center;gap:7px;margin-top:8px}
+  .step .idx{font-variant-numeric:tabular-nums;font-weight:600;font-size:11px;letter-spacing:.1em}
+  .step .lbl{font-weight:600;font-size:11px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .step[data-state="done"] .idx,.step[data-state="current"] .idx{color:var(--accent)}
+  .step[data-state="current"] .lbl,.step[data-state="done"] .lbl{color:var(--paper)}
+  .step .tick{display:none}
+  .step[data-state="done"] .tick{display:inline;color:var(--accent)}
+  .step[data-state="done"] .idx{display:none}
+  @media(max-width:620px){.step .lbl{display:none}.rail{gap:5px}}
+
+  /* stage */
+  main{padding:clamp(34px,6vw,68px) 0 90px}
+  .stage{display:none;animation:fade .55s var(--ease) both}
+  .stage.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .eyebrow{font-weight:600;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--concrete);display:flex;align-items:center;gap:.7em}
+  .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  h1.hero{font-family:var(--serif);font-weight:600;font-size:clamp(40px,7.5vw,84px);line-height:1;letter-spacing:-.02em;margin:.3em 0 0}
+  h1.hero .amber{color:var(--accent);position:relative;white-space:nowrap}
+  h1.hero .amber::after{content:"";position:absolute;left:0;bottom:.06em;height:.06em;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;animation:draw .9s var(--ease) .5s forwards}
+  @keyframes draw{to{transform:scaleX(1)}}
+  .lede{color:var(--concrete);font-size:clamp(16px,1.9vw,20px);max-width:52ch;margin-top:1.1em;line-height:1.5}
+  h2.sec{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,40px);letter-spacing:-.015em;margin:.35em 0 0}
+
+  .callout{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:22px;display:flex;gap:13px;align-items:flex-start;background:rgba(237,230,214,.02)}
+  .callout .ic{font-size:18px;line-height:1.4;flex:0 0 auto}
+  .callout p{font-size:14.5px;color:var(--paper);margin:0}
+  .callout.warn{border-color:rgba(242,162,60,.4);background:rgba(242,162,60,.06)}
+  .callout.stop{border-color:rgba(214,120,90,.4);background:rgba(214,120,90,.07)}
+
+  /* video / form frames */
+  .frame{margin-top:26px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#000}
+  .frame.v16{position:relative;padding-top:56.25%}
+  .frame.v16 iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .frame.form iframe{width:100%;height:78vh;min-height:620px;border:0;background:var(--paper)}
+  .fallback{margin-top:12px;font-size:12.5px;color:var(--concrete-dim)}
+  .fallback a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(242,162,60,.4)}
+  .video-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;margin-top:26px;min-height:250px;padding:44px 24px;border:1px solid var(--line);border-radius:18px;text-decoration:none;color:var(--paper);background:radial-gradient(120% 150% at 50% 0%,rgba(242,162,60,.13),transparent 60%),var(--panel);overflow:hidden;transition:border-color .25s,transform .2s}
+  .video-card:hover{border-color:rgba(242,162,60,.55);transform:translateY(-2px)}
+  .video-card .vc-play{width:70px;height:70px;border-radius:50%;background:var(--accent);color:#1a150c;display:grid;place-items:center;font-size:26px;padding-left:5px;box-shadow:0 12px 34px -8px rgba(242,162,60,.6);position:relative;z-index:1}
+  .video-card:hover .vc-play{transform:scale(1.06)}
+  .video-card .vc-title{font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,29px);letter-spacing:-.01em;position:relative;z-index:1}
+  .video-card .vc-sub{font-size:13px;color:var(--concrete);letter-spacing:.02em;position:relative;z-index:1}
+  .video-card .vc-wave{position:absolute;inset:0;opacity:.15;pointer-events:none;background-image:repeating-linear-gradient(90deg,var(--accent) 0 3px,transparent 3px 27px);-webkit-mask-image:radial-gradient(85% 65% at 50% 118%,#000,transparent 70%);mask-image:radial-gradient(85% 65% at 50% 118%,#000,transparent 70%)}
+  .vc-actions{display:flex;justify-content:center;margin-top:16px}
+  .btn.lg{font-size:15px;padding:14px 28px}
+
+  /* pain map — calm table layout */
+  #painmap{margin-top:24px;display:grid;gap:20px}
+  .pm-bucket{--c:var(--accent);border:1px solid var(--line);border-radius:16px;background:var(--panel);overflow:hidden}
+  .pm-head{display:flex;align-items:center;gap:13px;padding:15px 20px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--c) 9%,transparent),transparent)}
+  .pm-ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:16px;flex:0 0 auto;
+    background:color-mix(in srgb,var(--c) 15%,transparent);border:1px solid color-mix(in srgb,var(--c) 38%,transparent)}
+  .pm-title h3{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:-.01em;color:var(--c);line-height:1.15;margin:0}
+  .pm-title .sub{font-size:11.5px;color:var(--concrete-dim);letter-spacing:.02em}
+  .pm-count{margin-left:auto;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--c);
+    border:1px solid color-mix(in srgb,var(--c) 38%,transparent);border-radius:999px;padding:5px 12px;white-space:nowrap}
+  .pm-row{display:grid;grid-template-columns:1.15fr 1.5fr 1.6fr 1.5fr;gap:22px;padding:13px 20px;border-top:1px solid var(--line-soft)}
+  .pm-row.pm-colhead{border-top:0;padding-top:13px;padding-bottom:11px}
+  .pm-colhead span{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--concrete-dim)}
+  .pm-leak{font-weight:600;font-size:14px;color:var(--paper);line-height:1.4}
+  .pm-tell{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--c);line-height:1.45}
+  .pm-why,.pm-size{font-size:13.5px;color:var(--concrete);line-height:1.5}
+  .pm-cell .mlabel{display:none}
+  @media(max-width:720px){
+    .pm-row{grid-template-columns:1fr;gap:11px;padding:16px 18px}
+    .pm-row.pm-colhead{display:none}
+    .pm-cell .mlabel{display:block;font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--concrete-dim);margin-bottom:3px}
+    .pm-leak{font-size:15px}
+  }
+
+  /* prove-it */
+  .scenario{border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:22px;background:var(--panel)}
+  .scenario .tag{font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:var(--accent)}
+  .scenario h3{font-family:var(--serif);font-weight:600;font-size:clamp(19px,2.6vw,25px);margin:.2em 0 .1em;letter-spacing:-.01em}
+  .scenario .said{border-left:3px solid var(--line);padding:6px 0 6px 16px;margin:14px 0 4px;color:var(--paper);font-size:15.5px;line-height:1.6;font-style:italic}
+  .fields{display:grid;gap:12px;margin-top:16px}
+  .field label{display:block;font-weight:600;font-size:12.5px;letter-spacing:.02em;color:var(--concrete);margin-bottom:5px}
+  .field textarea,.field input{width:100%;background:var(--asphalt-2);border:1px solid var(--line);border-radius:10px;color:var(--paper);
+    font-family:var(--sans);font-size:14.5px;padding:10px 12px;resize:vertical}
+  .field textarea{min-height:52px}
+  .field textarea:focus,.field input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+  .reveal-btn{margin-top:16px}
+  .answer{display:none;margin-top:16px;border:1px solid rgba(107,182,196,.35);background:rgba(107,182,196,.07);border-radius:12px;padding:15px 17px}
+  .answer.open{display:block;animation:fade .4s var(--ease) both}
+  .answer .k{font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:var(--time);margin-bottom:8px}
+  .answer ul{margin:0;padding-left:18px}
+  .answer li{font-size:14px;margin:5px 0;color:var(--paper);line-height:1.5}
+  .answer li b{color:var(--paper)}
+
+  table.rubric{width:100%;border-collapse:collapse;margin-top:24px;font-size:13px}
+  table.rubric caption{text-align:left;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:var(--concrete);margin-bottom:10px}
+  table.rubric th,table.rubric td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rubric th{color:var(--concrete);font-weight:600;background:rgba(237,230,214,.03)}
+  table.rubric td:first-child{color:var(--paper)}
+
+  /* nav / buttons */
+  .stage-nav{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:34px;padding-top:22px;border-top:1px solid var(--line-soft)}
+  .btn{font-family:var(--sans);font-weight:600;letter-spacing:.04em;font-size:14px;border-radius:11px;cursor:pointer;
+    padding:12px 22px;border:1px solid transparent;transition:transform .15s,background .25s,opacity .25s;display:inline-flex;align-items:center;gap:9px}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--accent);color:#1a150c}
+  .btn.primary:hover{background:#f6b25a}
+  .btn.ghost{background:none;border-color:var(--line);color:var(--paper)}
+  .btn.ghost:hover{border-color:rgba(237,230,214,.34)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn:disabled:hover{background:var(--accent);transform:none}
+  .nav-hint{font-size:12px;color:var(--concrete-dim);letter-spacing:.02em}
+
+  /* done */
+  .done-hero{text-align:center;padding:20px 0 8px}
+  .done-check{width:64px;height:64px;border-radius:50%;border:2px solid var(--accent);display:inline-flex;align-items:center;justify-content:center;font-size:30px;color:var(--accent);margin-bottom:10px}
+  .recap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  @media(max-width:560px){.recap{grid-template-columns:1fr}}
+  .recap .card{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--panel)}
+  .recap .card .w{font-family:var(--serif);font-weight:700;font-size:22px}
+  .recap .card.m .w{color:var(--money)} .recap .card.t .w{color:var(--time)} .recap .card.b .w{color:var(--vis)}
+  .recap .card .d{font-size:12.5px;color:var(--concrete);margin-top:5px}
+  .next{margin-top:30px;border:1px dashed var(--line);border-radius:14px;padding:18px 20px;color:var(--concrete);font-size:14.5px}
+  .next b{color:var(--paper)}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="amb"><div class="aggregate"></div><div class="glow" id="glow"></div><div class="grain"></div></div>
+
+<header class="site">
+  <div class="site-inner">
+    <div class="brandbar">
+      <span class="brand">SKY <b>/</b> FIELD GUIDE</span>
+      <span class="chap">Chapter 1 · The Problem</span>
+      <button class="reset" id="resetBtn" title="Clear saved progress">Reset</button>
+    </div>
+    <ol class="rail" id="rail">
+      <li><button class="step" data-go="watch"><span class="bar"></span><span class="meta"><span class="idx">01</span><span class="tick">✓</span><span class="lbl">Watch</span></span></button></li>
+      <li><button class="step" data-go="study"><span class="bar"></span><span class="meta"><span class="idx">02</span><span class="tick">✓</span><span class="lbl">Study</span></span></button></li>
+      <li><button class="step" data-go="prove"><span class="bar"></span><span class="meta"><span class="idx">03</span><span class="tick">✓</span><span class="lbl">Prove</span></span></button></li>
+      <li><button class="step" data-go="test"><span class="bar"></span><span class="meta"><span class="idx">04</span><span class="tick">✓</span><span class="lbl">Test</span></span></button></li>
+    </ol>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <!-- WATCH -->
+  <section class="stage" id="stage-watch">
+    <p class="eyebrow"><span class="dot"></span>Chapter 01 · Watch</p>
+    <h1 class="hero">Find the <span class="amber">leak</span>.</h1>
+    <p class="lede">Before you ever mention a product, you have to hear the problem. This chapter is one skill: recognizing how a merchant loses money, hours, and control — in their own words. Watch this first. It's the whole chapter in about eleven minutes.</p>
+    <a class="video-card" href="https://www.loom.com/share/0b7172b5d39a4ab8b8037d9fb636a0c3" target="_blank" rel="noopener" aria-label="Watch the Chapter 1 concept video on Loom, opens in a new tab">
+      <span class="vc-wave" aria-hidden="true"></span>
+      <span class="vc-play" aria-hidden="true">▶</span>
+      <span class="vc-title">Watch the concept video</span>
+      <span class="vc-sub">Opens on Loom in a new tab ↗ · about 11 min</span>
+    </a>
+    <div class="vc-actions">
+      <a class="btn primary lg" href="https://www.loom.com/share/0b7172b5d39a4ab8b8037d9fb636a0c3" target="_blank" rel="noopener">▶ Open the video on Loom ↗</a>
+    </div>
+    <p class="fallback">The video plays on Loom in a new browser tab. If it doesn’t open, copy this link: <a href="https://www.loom.com/share/0b7172b5d39a4ab8b8037d9fb636a0c3" target="_blank" rel="noopener">https://www.loom.com/share/0b7172b5d39a4ab8b8037d9fb636a0c3</a></p>
+    <div class="callout stop">
+      <span class="ic">⛔</span>
+      <p><b>Zero product, on purpose.</b> You won't hear SkyOS, Fractal, or SkyFi anywhere in this video — and you shouldn't in a first conversation either. Chapter 1 is the problem. Product starts in Chapter 2. Your only job here is to learn to hear what's broken.</p>
+    </div>
+    <div class="stage-nav">
+      <span class="nav-hint">You just met Augusta, Joe's, and Ozinga.</span>
+      <button class="btn primary" data-done="watch" data-next="study">Mark watched — continue →</button>
+    </div>
+  </section>
+
+  <!-- STUDY -->
+  <section class="stage" id="stage-study">
+    <p class="eyebrow"><span class="dot"></span>Chapter 01 · Study</p>
+    <h2 class="sec">The Merchant Pain Map</h2>
+    <p class="lede">Hear the tell, recognize the leak, know how to size it — before you ever mention a product. Three buckets; every leak, four ways to know it.</p>
+    <div id="painmap"></div>
+    <div class="stage-nav">
+      <button class="btn ghost" data-go="watch">← Back</button>
+      <button class="btn primary" data-done="study" data-next="prove">Continue →</button>
+    </div>
+  </section>
+
+  <!-- PROVE -->
+  <section class="stage" id="stage-prove">
+    <p class="eyebrow"><span class="dot"></span>Chapter 01 · Prove</p>
+    <h2 class="sec">Two new merchants. Find their leaks.</h2>
+    <p class="lede">These are merchants you didn't meet in the video — different verticals on purpose, so it tests skill, not recall. For each, name the dominant leak and two secondaries in the merchant's own words, then size at least one with the Pain Map math. Write your answer, then reveal the model answer to check yourself.</p>
+
+    <div class="scenario" data-key="A">
+      <span class="tag">Scenario A · Timberline Building Supply — lumber yard</span>
+      <p class="said">"We've been doing this 30 years and honestly the card fees just feel like the cost of doing business at this point — I eat them, I don't pass them to customers, but every month it's a bigger number and I don't totally understand what I'm even paying for on that statement. What really gets me is I've got two yards now and I can't tell what's happening at the second one until my office manager pulls it all together at month-end. And getting paid takes forever — I make a sale today and the money's not in my account for days. My accounting software and whatever the card thing is don't talk to each other, so my bookkeeper's basically retyping everything."</p>
+      <div class="fields">
+        <div class="field"><label>Dominant leak</label><input type="text" data-a="A-dom" placeholder="The one that's costing them most…"></div>
+        <div class="field"><label>Two secondary leaks</label><input type="text" data-a="A-sec" placeholder="Two more you hear…"></div>
+        <div class="field"><label>In the merchant's own words (not feature language)</label><textarea data-a="A-words" placeholder="How would you name it back to them?"></textarea></div>
+        <div class="field"><label>Size one leak (Pain Map math)</label><input type="text" data-a="A-size" placeholder="e.g. monthly fees ÷ monthly card volume = effective rate"></div>
+      </div>
+      <button class="btn ghost reveal-btn" data-reveal="A">Reveal model answer</button>
+      <div class="answer" data-ans="A">
+        <p class="k">Model answer — Timberline</p>
+        <ul>
+          <li><b>Dominant: high processing fees.</b> "Getting killed on cards," doesn't understand the statement.</li>
+          <li><b>Secondaries:</b> slow deposits ("money's not in my account for days"), no cross-location visibility ("can't tell what's happening at the second yard"), disconnected tools ("don't talk to each other").</li>
+          <li><b>Sizing:</b> monthly fees ÷ monthly card volume → effective rate, then compare to an optimized rate.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="scenario" data-key="B">
+      <span class="tag">Scenario B · Delta Asphalt & Aggregates — asphalt / aggregates supplier</span>
+      <p class="said">"We got absolutely torched on a couple of disputes last quarter — material was already delivered and poured, gone, and we still ate the loss plus the fee. Our drivers are still collecting checks out on the route half the time, which is its own headache. And when we do take a card, sometimes it's over the phone and my guy just writes the number on the ticket. I know that's probably not great but that's how we've always done it. I couldn't tell you what any given transaction actually looks like — the statement's a mess."</p>
+      <div class="fields">
+        <div class="field"><label>Dominant leak</label><input type="text" data-a="B-dom" placeholder="The one that's costing them most…"></div>
+        <div class="field"><label>Two secondary leaks</label><input type="text" data-a="B-sec" placeholder="Two more you hear…"></div>
+        <div class="field"><label>In the merchant's own words (not feature language)</label><textarea data-a="B-words" placeholder="How would you name it back to them?"></textarea></div>
+        <div class="field"><label>Size one leak (Pain Map math)</label><input type="text" data-a="B-size" placeholder="e.g. chargebacks/mo × (avg ticket + fee)"></div>
+      </div>
+      <button class="btn ghost reveal-btn" data-reveal="B">Reveal model answer</button>
+      <div class="answer" data-ans="B">
+        <p class="k">Model answer — Delta</p>
+        <ul>
+          <li><b>Dominant: chargeback losses.</b> "Torched on disputes," material gone, ate the loss plus the fee.</li>
+          <li><b>Secondaries:</b> drivers collecting in the field, PCI / compliance exposure ("writes the number on the ticket"), no transaction-level clarity ("statement's a mess").</li>
+          <li><b>Sizing:</b> chargebacks/mo × (avg ticket + chargeback fee).</li>
+        </ul>
+      </div>
+    </div>
+
+    <table class="rubric">
+      <caption>How you're graded — pass = 8 / 12</caption>
+      <tr><th>Criterion</th><th>0</th><th>1</th><th>2</th></tr>
+      <tr><td>Right dominant leak per merchant</td><td>Wrong both</td><td>Right one</td><td>Right both</td></tr>
+      <tr><td>Merchant language, not feature language</td><td>Feature-led</td><td>Mixed</td><td>Clean merchant voice</td></tr>
+      <tr><td>Different lead pain across the two</td><td>Same for both</td><td>—</td><td>Correctly different</td></tr>
+      <tr><td>Sizing attempt with real math</td><td>None</td><td>Attempted, off</td><td>Correct method</td></tr>
+    </table>
+    <div class="callout">
+      <span class="ic">💡</span>
+      <p>The trap: <b>A leads with money/fees, B leads with chargebacks.</b> A rep who says "fees" for both missed the whole point — the lead pain is different every time.</p>
+    </div>
+
+    <div class="stage-nav">
+      <button class="btn ghost" data-go="study">← Back</button>
+      <div style="display:flex;align-items:center;gap:14px">
+        <span class="nav-hint" id="proveHint">Reveal both to continue</span>
+        <button class="btn primary" id="proveContinue" data-done="prove" data-next="test" disabled>I've self-checked — continue →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEST -->
+  <section class="stage" id="stage-test">
+    <p class="eyebrow"><span class="dot"></span>Chapter 01 · Test</p>
+    <h2 class="sec">The knowledge check.</h2>
+    <p class="lede">This is the gate. 15 questions, 80% to pass (16 / 20 points). Fourteen auto-grade; the last is a short written answer your trainer reviews. Submit it below, then mark yourself done.</p>
+    <div class="frame form">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeenL-qzJ3oK8NKkdDrwWvvpbY3Y7g9lsOce43nqNSn5vWlvQ/viewform?embedded=true" title="Chapter 1 knowledge check">Loading…</iframe>
+    </div>
+    <p class="fallback">Form not loading? <a href="https://docs.google.com/forms/d/e/1FAIpQLSeenL-qzJ3oK8NKkdDrwWvvpbY3Y7g9lsOce43nqNSn5vWlvQ/viewform" target="_blank" rel="noopener">Open it in a new tab ↗</a></p>
+    <div class="stage-nav">
+      <button class="btn ghost" data-go="prove">← Back</button>
+      <button class="btn primary" data-done="test" data-next="done">I've submitted the check →</button>
+    </div>
+  </section>
+
+  <!-- DONE -->
+  <section class="stage" id="stage-done">
+    <div class="done-hero">
+      <div class="done-check">✓</div>
+      <p class="eyebrow" style="justify-content:center">Chapter 01 · Complete</p>
+      <h1 class="hero" style="font-size:clamp(34px,6vw,64px)">You can hear the leak.</h1>
+      <p class="lede" style="margin-left:auto;margin-right:auto;text-align:center">You met three merchants, learned the tells across three buckets, and proved you can name a stranger's pain in their own words. That recognition reflex is the whole competency. You never once pitched a product — that was the point.</p>
+    </div>
+    <div class="recap">
+      <div class="card m"><div class="w">Money</div><div class="d">Fees, chargebacks, hot checks, lost card customers, PCI exposure.</div></div>
+      <div class="card t"><div class="w">Time</div><div class="d">Manual recon, slow deposits, field collection, disconnected tools, dated process.</div></div>
+      <div class="card b"><div class="w">Visibility</div><div class="d">Blind across locations, across people, and inside their own transactions.</div></div>
+    </div>
+    <div class="next"><b>Next up — Chapter 2: The Platform.</b> Now that you can name the pain, you'll learn what SkyOS is and which capability closes each leak. Whoever names the merchant's pain best, in the merchant's own words, wins the deal.</div>
+    <div class="stage-nav">
+      <button class="btn ghost" data-go="study">Review the Pain Map</button>
+      <button class="btn ghost" id="restart">Start over</button>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var STAGES=["watch","study","prove","test","done"];
+  var ACCENT={watch:"#F2A23C",study:"#F2A23C",prove:"#F2A23C",test:"#F2A23C",done:"#F2A23C"};
+  var BKT_ACCENT={money:"#F2A23C",time:"#6BB6C4",visibility:"#9A8CC7"};
+  var KEY="skyFieldGuide.ch1.v1";
+
+  var DATA={
+    money:{label:"Money",head:"Money bleeding out — margin, fees, and losses they don't have to take.",leaks:[
+      {name:"High processing fees",tell:"We pay our fees, we don’t pass them to the customer — we’re getting killed on cards",why:"No visibility into their effective rate; confusing statements; no card alternative at the payment screen.",size:"Monthly fees ÷ monthly card volume = effective rate → compare to an optimized rate."},
+      {name:"Chargeback losses",tell:"We got hit with a bunch of disputes",why:"Once material is down (ready-mix, asphalt, aggregates, cabinetry, granite) you can’t get it back — lose product and money, plus the fee, plus time chasing it.",size:"Chargebacks/mo × (avg ticket + chargeback fee)."},
+      {name:"Hot / bad checks",tell:"We’ve had some hot checks",why:"Checks take forever in the mail and rest on pure trust that the money’s actually there.",size:"Bad checks/mo × avg check = monthly write-off + outstanding AR due-on-check."},
+      {name:"No card acceptance (cash / check only)",tell:"We’re cash or check only",why:"Burned before on chargebacks or fees, never saw a better way — losing card-preferring customers to competitors.",size:"Est. % of customers who’d pay by card × avg ticket × volume."},
+      {name:"PCI / compliance exposure",tell:"We take cards over the phone and write the info down",why:"Major risk of card data being stolen, plus risk of the networks cutting off card acceptance entirely.",size:"Exposure, not monthly bleed: potential fines + breach liability + risk of losing card acceptance."}
+    ]},
+    time:{label:"Time",head:"Time bleeding out — people and days eaten by manual, dated processes.",leaks:[
+      {name:"Manual reconciliation",tell:"My bookkeeper spends days matching this",why:"Hand-matching deposits to invoices across disconnected systems.",size:"Days to close the books each month + error/rework rate — time returned and mistakes avoided."},
+      {name:"Slow deposits",tell:"I wait days to actually get paid",why:"Cash tied up in float; can’t fund operations.",size:"Deposit lag (days) × daily volume = cash trapped."},
+      {name:"Drivers collecting payment in the field",tell:"My drivers are chasing checks in the field",why:"Labor, risk, delay, and COD exposure at the point of delivery.",size:"# drivers × time/stop × labor rate + non-collection risk."},
+      {name:"Disconnected / non-industry tools",tell:"Nothing talks to anything",why:"Double entry; generic software never built for their world, so people become the glue.",size:"Hours lost to manual bridging."},
+      {name:"Dated acceptance processes",tell:"We’ve always done it this way",why:"Old rails, no modern options, friction baked into every payment.",size:"Qualitative — pairs with slow deposits."}
+    ]},
+    visibility:{label:"Visibility",head:"Flying blind — they can’t see across their own operation.",leaks:[
+      {name:"No visibility across locations",tell:"I can’t see what’s happening at my other yards until month-end",why:"Decisions made on stale, site-by-site data.",size:"Qualitative — the cost of a late or bad call."},
+      {name:"No visibility across employees",tell:"I don’t know who’s doing what",why:"Can’t spot performance, leakage, or issues by person.",size:"Qualitative."},
+      {name:"No transaction-level clarity",tell:"I can’t tell what’s actually going on with my transactions",why:"Statements today are an unreadable wall of numbers — can’t spot problems or trends as they happen.",size:"Qualitative — contrast their statement vs. a clear one."}
+    ]}
+  };
+
+  var state={current:"watch",max:0,done:{},buckets:{},revealed:{},answers:{}};
+
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+  function load(){try{var s=localStorage.getItem(KEY);if(s){var p=JSON.parse(s);if(p&&typeof p==="object"){state=Object.assign(state,p);state.done=p.done||{};state.buckets=p.buckets||{};state.revealed=p.revealed||{};state.answers=p.answers||{};}}}catch(e){}}
+
+  var railSteps=Array.prototype.slice.call(document.querySelectorAll("#rail .step"));
+  var glow=document.getElementById("glow");
+
+  function idx(st){return STAGES.indexOf(st);}
+
+  function setAccent(hex){document.documentElement.style.setProperty("--accent",hex);
+    var m=hex.replace('#','');var r=parseInt(m.substr(0,2),16),g=parseInt(m.substr(2,2),16),b=parseInt(m.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-soft","rgba("+r+","+g+","+b+",.14)");}
+
+  function renderRail(){
+    railSteps.forEach(function(btn){
+      var st=btn.getAttribute("data-go");var i=idx(st);
+      var stt="upcoming";
+      if(state.done[st])stt="done";
+      if(state.current===st)stt="current";
+      btn.setAttribute("data-state",stt);
+      var reachable=(i<=state.max)?1:0;
+      btn.setAttribute("data-reachable",reachable);
+      btn.disabled=!reachable;
+    });
+  }
+
+  function showStage(st){
+    STAGES.forEach(function(s){var el=document.getElementById("stage-"+s);if(el)el.classList.toggle("active",s===st);});
+    state.current=st; state.max=Math.max(state.max, idx(st));
+    setAccent(ACCENT[st]||"#F2A23C");
+    renderRail(); save();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  function goTo(st){ if(idx(st)<=state.max || st===nextOf(state.current)) showStage(st); }
+  function nextOf(st){var i=idx(st);return STAGES[Math.min(i+1,STAGES.length-1)];}
+
+  /* ---- Study: render the full pain map (calm table) ---- */
+  var painmapEl=document.getElementById("painmap");
+  var BKT_ORDER=["money","time","visibility"];
+  var BKT_ICON={money:"💰",time:"⏱️",visibility:"🔍"};
+  var BKT_SUB={money:"Money bleeding out",time:"Time bleeding out",visibility:"Flying blind"};
+  function renderPainMap(){
+    if(painmapEl.children.length) return;
+    BKT_ORDER.forEach(function(bkt){
+      var d=DATA[bkt];
+      var panel=document.createElement("div");
+      panel.className="pm-bucket";
+      panel.style.setProperty("--c",BKT_ACCENT[bkt]);
+      var rows='<div class="pm-row pm-colhead"><span>Leak</span><span>The tell</span><span>Why it bleeds</span><span>How to size it</span></div>';
+      d.leaks.forEach(function(lk){
+        rows+='<div class="pm-row">'+
+          '<div class="pm-cell"><span class="mlabel">Leak</span><span class="pm-leak">'+esc(lk.name)+'</span></div>'+
+          '<div class="pm-cell"><span class="mlabel">The tell</span><span class="pm-tell">“'+esc(lk.tell)+'”</span></div>'+
+          '<div class="pm-cell"><span class="mlabel">Why it bleeds</span><span class="pm-why">'+esc(lk.why)+'</span></div>'+
+          '<div class="pm-cell"><span class="mlabel">How to size it</span><span class="pm-size">'+esc(lk.size)+'</span></div>'+
+          '</div>';
+      });
+      panel.innerHTML='<div class="pm-head"><span class="pm-ic">'+BKT_ICON[bkt]+'</span>'+
+        '<div class="pm-title"><h3>'+esc(d.label)+'</h3><span class="sub">'+esc(BKT_SUB[bkt])+'</span></div>'+
+        '<span class="pm-count">'+d.leaks.length+' leaks</span></div>'+
+        '<div class="pm-table">'+rows+'</div>';
+      painmapEl.appendChild(panel);
+    });
+  }
+
+  /* ---- Prove reveal + answer persistence ---- */
+  var proveHint=document.getElementById("proveHint");
+  var proveContinue=document.getElementById("proveContinue");
+  function refreshProve(){
+    Object.keys(state.revealed).forEach(function(k){
+      if(state.revealed[k]){var a=document.querySelector('.answer[data-ans="'+k+'"]');if(a)a.classList.add("open");}
+    });
+    var both=state.revealed.A&&state.revealed.B;
+    proveContinue.disabled=!both;
+    proveHint.textContent=both?"Self-check done ✓":"Reveal both to continue";
+  }
+  document.querySelectorAll("[data-reveal]").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var k=btn.getAttribute("data-reveal");
+      var a=document.querySelector('.answer[data-ans="'+k+'"]');
+      if(a)a.classList.add("open");
+      state.revealed[k]=true; save(); refreshProve();
+    });
+  });
+  document.querySelectorAll("[data-a]").forEach(function(f){
+    var key=f.getAttribute("data-a");
+    if(state.answers[key]!=null)f.value=state.answers[key];
+    f.addEventListener("input",function(){state.answers[key]=f.value;save();});
+  });
+
+  /* ---- generic nav ---- */
+  document.querySelectorAll("[data-go]").forEach(function(b){
+    if(b.classList.contains("step"))return;
+    b.addEventListener("click",function(){goTo(b.getAttribute("data-go"));});
+  });
+  railSteps.forEach(function(b){b.addEventListener("click",function(){if(!b.disabled)goTo(b.getAttribute("data-go"));});});
+  document.querySelectorAll("[data-done]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var st=b.getAttribute("data-done");state.done[st]=true;
+      var nx=b.getAttribute("data-next");save();
+      if(nx)showStage(nx);else renderRail();
+    });
+  });
+
+  document.getElementById("restart").addEventListener("click",function(){showStage("watch");});
+  document.getElementById("resetBtn").addEventListener("click",function(){
+    if(confirm("Clear saved progress and start Chapter 1 over?")){
+      try{localStorage.removeItem(KEY);}catch(e){}
+      state={current:"watch",max:0,done:{},buckets:{},revealed:{},answers:{}};
+      document.querySelectorAll("[data-a]").forEach(function(f){f.value="";});
+      document.querySelectorAll(".answer").forEach(function(a){a.classList.remove("open");});
+      proveContinue.disabled=true;
+      refreshProve();showStage("watch");
+    }
+  });
+
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+  /* ---- init ---- */
+  load();
+  renderPainMap();
+  refreshProve();
+  showStage(STAGES.indexOf(state.current)>=0?state.current:"watch");
+})();
+</script>
+</body>
+</html>
